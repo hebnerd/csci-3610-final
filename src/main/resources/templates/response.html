@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+        <div class="container">
+            <h1>Result</h1>
+            <p th:text="'id: ' + ${greeting.getId()}"></p>
+            <p th:text="'content: ' + ${greeting.getContent()}"></p>
+            <a href="greeting">Submit another message.</a>
+            <br><br>
+            <a href="home">Head back to home.</a>
+        </div>
+</body>
+</html>

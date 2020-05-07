@@ -1,0 +1,44 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+    <div class="container">
+        <form action="#" th:action="@{/createAccount}" th:object="${account}" method="post">
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><label>
+                        <input type="text" th:field="*{firstName}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><label>
+                        <input type="text" th:field="*{lastName}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><label>
+                        <input type="text" th:field="*{email}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><label>
+                        <input type="text" th:field="*{password}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Age Error</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>

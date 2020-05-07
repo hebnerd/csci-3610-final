@@ -1,0 +1,33 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+<div class="container">
+    <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post">
+        <table>
+            <tr>
+                <td th:text="*{wasSuccessful==false}? 'Username or password was incorrect' : ''" >Username or password was incorrect</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><label>
+                    <input type="text" th:field="*{email}" />
+                </label></td>
+                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><label>
+                    <input type="password" th:field="*{password}" />
+                </label></td>
+                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Age Error</td>
+            </tr>
+            <tr>
+                <td><button type="submit">Login</button></td>
+                <td><button href="./createAccount">Register</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

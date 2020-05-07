@@ -1,0 +1,120 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+<div th:replace="fragments/header :: header"></div>
+
+<body onload="displayDiscountCode()">
+<div class="container">
+        <form action="#" th:action="@{/giftShop}" th:object="${giftShopForm}" method="post">
+            <h1>Thank you for your purchase!</h1>
+            <h2 id="discountCode"></h2>
+            <table>
+                <tr>
+                    <td>You entered a discount code:</td>
+                    <td><label th:utext="${giftShopForm.getDiscountCode()}"></label></td>
+                </tr>
+
+                <tr>
+                    <td>Gecko</td>
+                    <td><label th:text="${giftShopForm.getGecko()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Toad</td>
+                    <td><label th:text="${giftShopForm.getToad()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Bearded Dragon</td>
+                    <td><label th:text="${giftShopForm.getBeardedDragon()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Frog</td>
+                    <td><label th:text="${giftShopForm.getFrog()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Poison Frog</td>
+                    <td><label th:text="${giftShopForm.getPoisonFrog()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Bob's Lizard Shack T-Shirt</td>
+                    <td><label th:text="${giftShopForm.getBobsLizardShackShirt()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Lacy's Reptile Shack Sucks T-Shirt</td>
+                    <td><label th:text="${giftShopForm.getLacysReptileShackShirt()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Bob's Lizard Shack Bumper Sticker</td>
+                    <td><label th:text="${giftShopForm.getBumperSticker()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Name on Credit Card:</td>
+                    <td><label th:text="${giftShopForm.getName()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Credit Card Number:</td>
+                    <td><label th:text="${giftShopForm.getCreditCardNumber()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Credit Card Security Code:</td>
+                    <td><label th:text="${giftShopForm.getSecurityCode()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Credit Card Expiration Date:</td>
+                    <td><label th:text="${giftShopForm.getCreditCardExpirationDate()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Street Address:</td>
+                    <td><label th:text="${giftShopForm.getStreetAddress()}"></label></td>
+                </tr>
+                <tr>
+                    <td>ZIP code:</td>
+                    <td><label th:text="${giftShopForm.getZipCode()}"></label></td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td><label th:text="${giftShopForm.getCity()}"></label></td>
+                </tr>
+                <tr>
+                    <td>State:</td>
+                    <td><label th:text="${giftShopForm.getState()}"></label></td>
+                </tr>
+                <tr>
+                    <td>Total Cost:</td>
+                    <td><label th:text="'$' + ${giftShopForm.getTotalCost() + '.00'}"></label></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+
+<footer>
+    <script>
+        function displayDiscountCode(code){
+            let discountCodes = {
+                friends:0.25,
+                bestFriends:0.01,
+                froggy:0.10,
+                iWantMoney:0.33
+            }
+
+            let percentOff = discountCodes[code];
+            if(percentOff==null || percentOff==undefined || percentOff==NaN){
+                percentOff = 0;
+            }
+            // Mirror output to the console
+            console.log(code);
+
+            // Determine which message to display
+            let ihtml = "";
+            if(percentOff == 0){
+                ihtml = "The discount code <b>" + code + "</b> is not recognized.";
+            }
+            else{
+                ihtml = "The discount code <b>" + code + "</b> gives you <b>" + (percentOff*100) + "% OFF</b> your purchase.";
+            }
+
+            // Write the output to the page
+            document.getElementById("discountCode").innerHTML = ihtml;
+        }
+
+    </script>
+</footer>
+</html>

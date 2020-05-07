@@ -1,0 +1,55 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+<div class="container">
+    <form action="#" th:action="@{/createReview}" th:object="${reviewForm}" method="post">
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><label>
+                    <input type="number" th:field="*{accountId}" hidden>
+                    <input type="text" th:field="*{accountName}" disabled/>
+                </label></td>
+            </tr>
+            <tr>
+                <td>Rating:</td>
+                <td><label>
+                    <input id="rating" type="number" th:field="*{rating}" onchange="ratingCap()" />
+                </label></td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td><label>
+                    <input id="content" type="text" th:field="*{content}" hidden/>
+                    <textarea id="contentFake" rows="4" cols="50" onchange="updateContent()"> </textarea>
+
+                </label></td>
+            </tr>
+            <tr>
+                <td><button type="submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+
+<footer>
+    <script>
+        function ratingCap() {
+            let currentRating = document.getElementById("rating").value;
+            if(currentRating > 5){
+                document.getElementById("rating").value = 5;
+            }
+            else if(currentRating < 0){
+                document.getElementById("rating").value = 0;
+            }
+        }
+
+        function updateContent(){
+            let multiLineText = document.getElementById("contentFake").value;
+            document.getElementById("content").value = multiLineText;
+        }
+    </script>
+</footer>
+</html>

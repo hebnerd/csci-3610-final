@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+    <div class="container">
+            <form action="#" th:action="@{/greeting}" th:object="${greeting}" method="post">
+                <table>
+                    <tr>
+                        <td>ID:</td>
+                        <td><label>
+                            <input type="text" th:field="*{id}" />
+                        </label></td>
+                        <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">ID Error</td>
+                    </tr>
+                    <tr>
+                        <td>Content:</td>
+                        <td><label>
+                            <input type="text" th:field="*{content}" />
+                        </label></td>
+                        <td th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Error</td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit">Submit</button></td>
+                    </tr>
+                </table>
+            </form>
+    </div>
+</body>
+</html>

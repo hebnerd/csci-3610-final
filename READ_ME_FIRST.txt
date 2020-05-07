@@ -1,0 +1,1 @@
+Make a new project from sources (in IntelliJ) - pick Maven and select the pom.xml file. Maven will handle the rest.

@@ -1,0 +1,237 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+<div class="container">
+        <!-- Effected by JS -->
+        <p id="discountCode"></p>
+
+        <!-- Effected by Thymeleaf -->
+        <div th:if="${param.DiscountCode != null}">
+            <div th:text="${param.DiscountCode}"></div>
+        </div>
+
+        <form action="#" th:action="@{/giftShop}" th:object="${giftShopForm}" method="post">
+            <table>
+                <tr>
+                    <td>Gecko</td>
+                    <td><label>
+                        <input id="gecko" type="number" th:field="*{gecko}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Toad</td>
+                    <td><label>
+                        <input id="toad" type="number" th:field="*{toad}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Bearded Dragon</td>
+                    <td><label>
+                        <input id="beardedDragon" type="number" th:field="*{beardedDragon}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Frog</td>
+                    <td><label>
+                        <input id="frog" type="number" th:field="*{frog}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Poison Frog</td>
+                    <td><label>
+                        <input id="poisonFrog" type="number" th:field="*{poisonFrog}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Bob's Lizard Shack T-Shirt</td>
+                    <td><label>
+                        <input id="bobsLizardShackShirt" type="number" th:field="*{bobsLizardShackShirt}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Lacy's Reptile Shack Sucks T-Shirt</td>
+                    <td><label>
+                        <input id="lacysReptileShackShirt" type="number" th:field="*{lacysReptileShackShirt}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Bob's Lizard Shack Bumper Sticker</td>
+                    <td><label>
+                        <input id="bumperSticker" type="number" th:field="*{bumperSticker}" onchange="updateTotal()"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Name on Credit Card:</td>
+                    <td><label>
+                        <input id="name" type="text" th:field="*{name}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>Credit Card Number:</td>
+                    <td><label>
+                        <input id="creditCardNumber" type="text" th:field="*{creditCardNumber}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('creditCardNumber')}" th:errors="*{creditCardNumber}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>Credit Card Security Code:</td>
+                    <td><label>
+                        <input id="securityCode" type="text" th:field="*{securityCode}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('securityCode')}" th:errors="*{securityCode}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>Credit Card Expiration Date:</td>
+                    <td><label>
+                        <input id="creditCardExpirationDate" type="text" th:field="*{creditCardExpirationDate}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('creditCardExpirationDate')}" th:errors="*{creditCardExpirationDate}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>Street Address:</td>
+                    <td><label>
+                        <input id="streetAddress" type="text" th:field="*{streetAddress}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('streetAddress')}" th:errors="*{streetAddress}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>ZIP code:</td>
+                    <td><label>
+                        <input id="zipCode" type="text" th:field="*{zipCode}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td><label>
+                        <input id="city" type="text" th:field="*{city}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('city')}" th:errors="*{city}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>State:</td>
+                    <td><label>
+                        <input id="state" type="text" th:field="*{state}" />
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('state')}" th:errors="*{state}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>Total Cost:</td>
+                    <td><label>
+                        <input id="totalCost" type="number"  th:field="*{totalCost}" hidden/>
+                        <input id="totalCostFake" type="text" disabled/>
+                    </label></td>
+                    <td th:if="${#fields.hasErrors('totalCost')}" th:errors="*{totalCost}">ID Error</td>
+                </tr>
+                <tr>
+                    <td>Enter a discount code!</td>
+                    <td><label>
+                        <input id="discount" type="text" th:field="*{discountCode}" />
+                    </label></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+
+<footer>
+    <script>
+        // Adds output to the DOM
+        function displayDiscountCode(code, percentOff){
+            // Mirror output to the console
+            console.log(code);
+
+            // Determine which message to display
+            let ihtml = "";
+            if(percentOff == 0){
+                ihtml = "The discount code <b>" + code + "</b> is not recognized.";
+            }
+            else{
+                ihtml = "The discount code <b>" + code + "</b> gives you <b>" + (percentOff*100) + "% OFF</b> your purchase.";
+            }
+
+            // Write the output to the page
+            document.getElementById("discountCode").innerHTML = ihtml;
+        }
+
+        // Creates a map of parameters based upon what is in the URL
+        function getUrlVars() {
+            let vars = {};
+            let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+                function(m,key,value) {
+                    vars[key] = value;
+                });
+            return vars;
+        }
+
+        // Gets the percent off for the total price
+        function getDiscountCode(){
+            // Define the discount codes
+            let discountCodes = {
+                friends:0.25,
+                bestFriends:0.01,
+                froggy:0.10,
+                iWantMoney:0.33
+            }
+
+            // Get the discount code from the URL
+            let code = getUrlVars()["DiscountCode"]
+            code = decodeURI(code);
+
+            // If the discount code does not exists, set the percentOff to be 0
+            let percentOff = discountCodes[code];
+            if(percentOff==null || percentOff==undefined || percentOff==NaN){
+                percentOff = 0;
+            }
+
+            // Display the code
+            displayDiscountCode(code, percentOff);
+
+            return percentOff
+        }
+
+        function updateTotal(){
+            // Define the prices
+            let prices={
+                gecko:15,
+                toad:8,
+                beardedDragon:45,
+                frog:10,
+                poisonFrog:60,
+                bobsLizardShackShirt:15,
+                lacysReptileShackShirt:14,
+                bumperSticker:3
+            };
+
+            // Get the total price based upon all of the inputs.
+            // If the input does have an associated price, discard it.
+            let total = 0;
+            let inputs = document.getElementsByTagName("input");
+            for (let i=0; i<inputs.length; i++){
+                let price = prices[inputs[i].id];
+                let count = inputs[i].value;
+                if(!(isNaN(price) || price === undefined || isNaN(count) || count === undefined)){
+                    if(count < 0){
+                        inputs[i].value = "0";
+                        count = 0;
+                    }
+                    total += price * count;
+                }
+            }
+
+            // Apply any discount codes
+            total = total * (1-getDiscountCode());
+
+            // Update the text boxes
+            document.getElementById("totalCostFake").value = '$' + total.toString() + '.00';
+            document.getElementById("totalCost").value = total;
+        }
+        updateTotal();
+    </script>
+</footer>
+</html>

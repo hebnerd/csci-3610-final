@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml" lang="" xmlns:tf="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bob's Lizard Shack</title>
+
+    <!-- Bootstrap CSS
+        - Common framework for creating web pages. -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- My custom CSS for this assignment -->
+    <link rel="stylesheet" href="css/secureCoding.css">
+
+    <!-- JQuery :
+        - Required for bootstrap
+        - Allows HTML elements to be accesed via $("htmlId") notation -->
+    <script src="js/jquery-3.4.1.slim.min.js"></script>
+    <!-- Bootstrap JS :
+        - Common framework for creating web pages -->
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+<body onload="updateUserInfo()">
+    <nav class="navbar navbar-expand-md fixed-top navbar-light">
+        <a class="navbar-brand" href="/">Bob's Lizard Shack</a>
+        <button class="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./giftShop">Gift Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/reviews">See Our Praises!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Win a FREE Lizard!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/greeting">Greeting</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/form">Info Form</a>
+                </li>
+            </ul>
+            <span class="navbar-text" id="greeting">UT OH </span>
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item" id="login">
+                    <a class="nav-link" href="/login">Sign in</a>
+                </li>
+                <li class="nav-item" id="newAccount">
+                    <a class="nav-link" href="/createAccount">Sign up!</a>
+                </li>
+                <li class="nav-item" id="logout">
+                    <a class="nav-link" href="/logout" method="post"> Logout</a>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+</body>
+
+<footer>
+    <script>
+        function updateUserInfo() {
+            var e = document.getElementById("greeting");
+            e.style.display = "none";
+            e = document.getElementById("logout");
+            e.style.display = "none";
+
+            var accountId = "AccountId=";
+            var firstName = "FirstName=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookies = decodedCookie.split(';');
+            for(var i = 0; i <cookies.length; i++) {
+                var cookie = cookies[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(accountId) === 0) {
+                    var id = cookie.substring(accountId.length, cookie.length);
+                    console.log(id);
+
+                    var e = document.getElementById("greeting");
+                    e.style.display = "block";
+                    e = document.getElementById("logout");
+                    e.style.display = "block";
+                    e = document.getElementById("login");
+                    e.style.display = "none";
+                    e = document.getElementById("newAccount");
+                    e.style.display = "none";
+
+                }
+                if (cookie.indexOf(firstName) === 0) {
+                    var name = cookie.substring(firstName.length, cookie.length);
+                    var e = document.getElementById("greeting");
+                    e.innerHTML = "Hello " + name + "!";
+                }
+            }
+        }
+    </script>
+</footer>
+</html>
