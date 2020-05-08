@@ -16,10 +16,19 @@ import edu.etsu.csci3610.sp2020final.models.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -54,17 +63,29 @@ public class DatabaseInterchange {
     }
 
     public Account GetAccountByLogin(String email, String password){
-        List<Account> accounts = jdbcTemplate.query("SELECT * FROM account WHERE email='" + email +"' AND password='" + password + "'",
-                (resultSet, rowNum) -> new Account(resultSet.getInt("id"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getString("email"),
-                        resultSet.getString("creationDate"),
-                        resultSet.getString("password"),
-                        resultSet.getString("role")));
         try {
-            return accounts.get(0);
-        } catch (IndexOutOfBoundsException i) {
+            String sql = "SELECT * FROM account WHERE email=? AND password=?";
+
+            Account account = jdbcTemplate.query(sql,
+                    preparedStatement -> {
+                        preparedStatement.setString(1, email);      // Create prepared statement with email and password
+                        preparedStatement.setString(2, password);
+                    },
+                    resultSet -> {
+                        resultSet.next();                           // Extract an account from selected value
+                        return new Account(resultSet.getInt("id"),
+                                resultSet.getString("firstName"),
+                                resultSet.getString("lastName"),
+                                resultSet.getString("email"),
+                                resultSet.getString("creationDate"),
+                                resultSet.getString("password"),
+                                resultSet.getString("role"));
+                    }
+            );
+
+            return account;
+        }
+        catch (Exception e) {
             return null;
         }
     }
