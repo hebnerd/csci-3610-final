@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+<div class="container">
+    <h1>Congratulations!</h1>
+    <span th:text="${freeLizard.getName()}"></span>! You've signed up for the free lizard raffle during your next visit!</p>
+    <br><br>
+    <a href="home">Head back to home.</a>
+</div>
+</body>
+</html>

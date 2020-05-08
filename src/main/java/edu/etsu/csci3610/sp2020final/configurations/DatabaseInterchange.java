@@ -64,15 +64,15 @@ public class DatabaseInterchange {
 
     public Account GetAccountByLogin(String email, String password){
         try {
-            String sql = "SELECT * FROM account WHERE email=? AND password=?";
+            String sql = "SELECT * FROM account WHERE email=? AND password=?";  // Replaced the parameters with ? for the prepared statement
 
             Account account = jdbcTemplate.query(sql,
                     preparedStatement -> {
                         preparedStatement.setString(1, email);      // Create prepared statement with email and password
-                        preparedStatement.setString(2, password);
+                        preparedStatement.setString(2, password);   // The int indicates which question mark to replace the parameter with
                     },
                     resultSet -> {
-                        resultSet.next();                           // Extract an account from selected value
+                        resultSet.next();                           // Extract an account from DB selection result
                         return new Account(resultSet.getInt("id"),
                                 resultSet.getString("firstName"),
                                 resultSet.getString("lastName"),
@@ -85,7 +85,7 @@ public class DatabaseInterchange {
 
             return account;
         }
-        catch (Exception e) {
+        catch (Exception e) {   // On encountering a log in issue (mostly commonly a bad password), return no account
             return null;
         }
     }
